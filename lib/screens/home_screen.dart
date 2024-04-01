@@ -112,7 +112,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final map = <String, String>{};
     final map2 = <String, String>{};
 
-    for (var i = 0; i < diff; i++) {
+    for (var i = 0; i <= diff; i++) {
       final genDate = start.add(Duration(days: i));
       map[genDate.yyyymm] = '';
       map2[genDate.year.toString()] = '';
