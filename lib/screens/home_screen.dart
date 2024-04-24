@@ -11,6 +11,7 @@ import '../state/app_param/app_param_notifier.dart';
 import '../state/work_time_summary/work_time_summary_notifier.dart';
 import '../utility/utility.dart';
 import 'components/job_history_input_alert.dart';
+import 'components/parts/copyable_text.dart';
 import 'components/parts/job_dialog.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -71,10 +72,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () => ref.read(appParamProvider.notifier).setDummyFlag(flag: !dummyFlag),
-            icon: Icon(
-              Icons.ac_unit,
-              color: dummyFlag ? Colors.yellowAccent : Colors.white,
-            ),
+            icon: Icon(Icons.ac_unit, color: dummyFlag ? Colors.yellowAccent : Colors.white),
           ),
         ],
       ),
@@ -161,10 +159,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           list.add(
             Container(
               padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 20),
-              decoration: BoxDecoration(
-                color: Colors.yellowAccent.withOpacity(0.4),
-                borderRadius: BorderRadius.circular(10),
-              ),
+              decoration: BoxDecoration(color: Colors.yellowAccent.withOpacity(0.4), borderRadius: BorderRadius.circular(10)),
               child: Text(exYm[0]),
             ),
           );
@@ -185,11 +180,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    final thisMonthJobHistory =
-                        jobHistoryList!.where((element2) => element2.yearmonth == ymList[i]).toList();
+                    final thisMonthJobHistory = jobHistoryList!.where((element2) => element2.yearmonth == ymList[i]).toList();
 
-                    final thisMonthJobDummy =
-                        jobDummyList!.where((element2) => element2.yearmonth == ymList[i]).toList();
+                    final thisMonthJobDummy = jobDummyList!.where((element2) => element2.yearmonth == ymList[i]).toList();
 
                     var jobHistory = jobHistoryDefault;
                     var jobDummy = jobDummyDefault;
@@ -206,14 +199,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                     JobDialog(
                       context: context,
-                      widget: JobHistoryInputAlert(
-                          isar: widget.isar, yearmonth: ymList[i], jobHistory: jobHistory, jobDummy: jobDummy),
+                      widget: JobHistoryInputAlert(isar: widget.isar, yearmonth: ymList[i], jobHistory: jobHistory, jobDummy: jobDummy),
                     );
                   },
-                  child: CircleAvatar(
-                    radius: 12,
-                    backgroundColor: _getCircleAvatarBgColor(yearmonth: ymList[i]),
-                  ),
+                  child: CircleAvatar(radius: 12, backgroundColor: _getCircleAvatarBgColor(yearmonth: ymList[i])),
                 ),
                 const SizedBox(width: 10),
                 Expanded(child: Text(ymList[i])),
@@ -223,19 +212,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            CopyableText(
                               jobDummy.jobName,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: (jobHistory.jobName == jobDummy.jobName) ? Colors.yellowAccent : Colors.white,
-                              ),
+                              style: TextStyle(color: (jobHistory.jobName == jobDummy.jobName) ? Colors.yellowAccent : Colors.white),
                             ),
                             const SizedBox(height: 10),
                             DefaultTextStyle(
                               style: const TextStyle(fontSize: 10, color: Colors.grey),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [Text(jobDummy.spot), Text(jobDummy.company)],
+                                children: [CopyableText(jobDummy.spot), CopyableText(jobDummy.company)],
                               ),
                             ),
                           ],
@@ -243,24 +229,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(jobHistory.jobName, overflow: TextOverflow.ellipsis),
+                            CopyableText(jobHistory.jobName),
                             const SizedBox(height: 10),
                             DefaultTextStyle(
                               style: const TextStyle(fontSize: 10, color: Colors.grey),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(jobHistory.spot),
-                                  Text(jobHistory.company),
+                                  CopyableText(jobHistory.spot),
+                                  CopyableText(jobHistory.company),
                                   if (wtsItemMap[ymList[i]] != null) ...[
                                     const SizedBox(height: 10),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          wtsItemMap[ymList[i]]!.workSum,
-                                          style: const TextStyle(color: Color(0xFFFBB6CE)),
-                                        ),
+                                        Text(wtsItemMap[ymList[i]]!.workSum, style: const TextStyle(color: Color(0xFFFBB6CE))),
                                         Text(
                                           (wtsItemMap[ymList[i]] != null && wtsItemMap[ymList[i]]!.salary != '')
                                               ? wtsItemMap[ymList[i]]!.salary.toCurrency()
@@ -284,9 +267,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
 
     return SingleChildScrollView(
-      controller: yearmonthListScrollController,
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: list),
-    );
+        controller: yearmonthListScrollController, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: list));
   }
 
   ///
@@ -355,11 +336,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ));
     }
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      controller: yearListScrollController,
-      child: Row(children: list),
-    );
+    return SingleChildScrollView(scrollDirection: Axis.horizontal, controller: yearListScrollController, child: Row(children: list));
   }
 
   ///
